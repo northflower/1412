@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=Sora:wght@500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-temp: "Sora", "Noto Sans SC", ui-sans-serif, system-ui, sans-serif;
+  
+  /* Morandi Palette */
+  --color-brand-primary: #7297b8; /* 柔和的海蓝色 */
+  --color-brand-secondary: #5a7a96;
+  --color-brand-accent: #8fb3a0;  /* 柔和的薄荷绿 */
+  --color-brand-danger: #c88d8d;  /* 柔和的豆沙红 */
+}
+
+@layer base {
+  html {
+    @apply md:h-full;
+  }
+
+  #root {
+    @apply md:h-full md:min-h-0 md:overflow-hidden;
+  }
+
+  body {
+    @apply transition-colors duration-500 font-sans antialiased md:h-full md:overflow-hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body:not(.dark) {
+    @apply bg-[#f0f2f5] text-[#2c3e50];
+  }
+
+  body.dark {
+    @apply bg-[#1a1c20] text-[#d1d5db];
+  }
+}
+
+.bento-card {
+  @apply transition-all duration-500 flex flex-col overflow-hidden;
+}
+
+body:not(.dark) .bento-card {
+  @apply bg-[#ffffff] border border-[#d6dee5] rounded-[2.5rem];
+  box-shadow: 0 10px 30px -10px rgba(114, 151, 184, 0.1);
+}
+
+body.dark .bento-card {
+  @apply bg-[#26292f] border border-[#373c44] rounded-[2.5rem];
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4);
+}
+
+.terminal-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.terminal-scroll::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 rounded-full hover:bg-slate-300;
+}
+
+body.dark .terminal-scroll::-webkit-scrollbar-thumb {
+  @apply bg-slate-700;
+}
+
+/* Radar Visuals */
+.radar-grid {
+  background-image: 
+    linear-gradient(rgba(114, 151, 184, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(114, 151, 184, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.radar-sweep {
+  background: conic-gradient(from 0deg, transparent 0deg, rgba(114, 151, 184, 0.2) 360deg);
+  animation: sweep 4s linear infinite;
+}
+
+@keyframes sweep {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 环境温度：专用数字样式，避免粗黑体数字糊成一团 */
+@layer components {
+  .temp-metric {
+    @apply flex items-baseline justify-center gap-0.5 select-none;
+  }
+
+  .temp-metric__value {
+    font-family: var(--font-temp);
+    font-variant-numeric: tabular-nums lining-nums;
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1;
+  }
+
+  .temp-metric__unit {
+    font-family: var(--font-temp);
+    @apply font-medium opacity-70;
+    font-size: 0.42em;
+    line-height: 1;
+    padding-bottom: 0.22em;
+  }
+}
